@@ -1,0 +1,14 @@
+@startuml
+class com.example.oscdl.MainActivity {
+~ ActivityMainBinding binding
+~ oscfragment oscfragment
+~ createfragment createfragment
+~ hbbfragment hbbfragment
+~ FragmentManager fragmentManager
+# void onCreate(Bundle)
+- void showFragment(Fragment)
+}
+
+
+androidx.appcompat.app.AppCompatActivity <|-- com.example.oscdl.MainActivity
+@enduml

@@ -1,0 +1,334 @@
+@startuml
+class com.example.oscdl.createfragment {
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+~ String ip
+- String mParam1
+- String mParam2
++ {static} createfragment newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void onResume()
+- void updateListViewData()
++ void transferToWii(String,int)
++ void startDialog(int)
++ boolean isIPv4Address(String)
++ ByteArrayInputStream writeZip(String)
+}
+class com.example.oscdl.oscfragment {
+~ String jsonStr
+~ boolean key
+~ ArrayList<Package> pkgs
+~ ArrayList<String> names
+~ Bitmap[] imgs
+~ ListView lv
+~ CustomBaseAdapter cba
+~ CarouselAdapter ca
+~ int lastpos
+~ Context context
+~ boolean isInitialized
+- EditText et
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
++ {static} oscfragment newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ ArrayList<Package> getJSON()
++ void setArr()
++ void downloadIMGS()
+}
+class com.example.oscdl.SmallPackage {
+~ String appname
+~ String version
+~ String devname
+~ String category
+~ String desc
+~ int size
+~ Bitmap img
+~ String zip_url
++ String getAppname()
++ void setAppname(String)
++ String getVersion()
++ void setVersion(String)
++ String getDevname()
++ void setDevname(String)
++ String getCategory()
++ void setCategory(String)
++ String getDesc()
++ void setDesc(String)
++ Bitmap getImg()
++ void setImg(Bitmap)
++ int getSize()
++ void setSize(int)
++ String getZip_url()
++ void setZip_url(String)
+}
+class com.example.oscdl.hbbfragment {
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
++ {static} hbbfragment newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+class com.example.oscdl.CustomBaseAdapter {
+~ Context context
+~ Bitmap[] imgs
+~ String[] desc
+~ ArrayList<Package> pkgs
+~ String[] appName
+~ LayoutInflater inflater
+~ String filter
++ int getCount()
++ Object getItem(int)
++ long getItemId(int)
++ View getView(int,View,ViewGroup)
++ void setFilter(String)
+}
+class com.example.oscdl.CarouselAdapter {
+~ Context context
+~ Bitmap[] imgs
+~ String[] version
+~ Integer[] size
+~ String[] devName
+~ ArrayList<Package> pkgs
+~ LayoutInflater inflater
+~ String filter
+~ int lastpos
++ void setFilter(String)
++ CarouselHolderView onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(CarouselAdapter.CarouselHolderView,int)
++ int getItemCount()
+- {static} String bytesToMegabytes(long)
++ void setGone()
++ void setVisible()
++ int dpToPx(Context,float)
+}
+class com.example.oscdl.CarouselAdapter$CarouselHolderView {
+- TextView devName_tv
+- TextView version_tv
+- TextView size_tv
+- ImageView img_iv
+~ View view
+~ View temp
++ void hideView()
++ void showView()
+}
+class com.example.oscdl.ThemeItem {
+- String zipFilePath
+- String name
+- Bitmap icon
++ String getZipFilePath()
++ String getName()
++ Bitmap getIcon()
+}
+class com.example.oscdl.MainActivity {
+~ ActivityMainBinding binding
+~ oscfragment oscfragment
+~ createfragment createfragment
+~ hbbfragment hbbfragment
+~ FragmentManager fragmentManager
+# void onCreate(Bundle)
+- void showFragment(Fragment)
+}
+class com.example.oscdl.SplashScreen {
+# void onCreate(Bundle)
+}
+class com.example.oscdl.ThemeAdapter {
+- Context context
+- ArrayList<String> zipFilePaths
+- ArrayList<String> names
+- ArrayList<Bitmap> icons
++ int getCount()
++ Object getItem(int)
++ long getItemId(int)
++ View getView(int,View,ViewGroup)
+}
+class com.example.oscdl.ThemeAdapter$ViewHolder {
+~ ImageView iconImageView
+~ TextView nameTextView
+}
+class com.example.oscdl.infoPage {
+~ SmallPackage smallPackage
+~ boolean key
+~ int downloadProgress
+~ Button btn
+- BroadcastReceiver networkChangeReceiver
+- String ip
+~ Context context
+~ String pathfile
+~ DownloadFileFromURL downloadTask
+~ BroadcastReceiver downloadCompleteReceiver
+# void onCreate(Bundle)
+- String bytesToMegabytes(long)
+- void startFileDownload()
+# void onDestroy()
+- boolean isNetworkAvailable()
++ ByteArrayInputStream writeZip(String)
++ void startDialog()
++ boolean isIPv4Address(String)
++ void transferToWii(String)
+}
+class com.example.oscdl.ImageUtils {
++ {static} Bitmap resizeImage(Bitmap,int,int)
++ {static} void saveBitmap(Bitmap,File)
++ {static} void writeStringToFile(String,File)
++ {static} void copyFile(File,File)
++ {static} String createTheme(Bitmap,String,Context)
++ {static} void compressFolder(String,String)
+- {static} void addFileToZip(String,String,ZipOutputStream)
+- {static} void addFolderToZip(String,String,ZipOutputStream)
+}
+class com.example.oscdl.themeCreator {
+- {static} int REQUEST_IMAGE_SELECT
+- EditText nameEditText
+- Button button
+- Uri selectedImageUri
+# void onCreate(Bundle)
+- void selectImage()
+# void onActivityResult(int,int,Intent)
+- void deleteRecursive(File)
+}
+class com.example.oscdl.WiiLoad {
++ {static} int WIILOAD_VER_MAJOR
++ {static} int WIILOAD_VER_MINOR
++ {static} int CHUNK_SIZE
++ int fileSize
++ byte[] cData
++ int compressedSize
++ byte[][] chunks
++ Socket conn
+- {static} String TAG
++ {static} boolean validateIPRegex(String)
++ void organizeZip(ByteArrayInputStream,ByteArrayOutputStream)
++ void prepare(ByteArrayInputStream)
++ byte[][] splitDataIntoChunks(byte[])
++ Socket connect(String)
++ void handshake()
++ void writeBigEndianInt(OutputStream,int)
++ void send(String)
++ void sendGecko(byte[],Socket)
+}
+class com.example.oscdl.DownloadFileFromURL {
+- {static} String CHANNEL_ID
+- Context context
+- NotificationManager notificationManager
+- NotificationCompat.Builder notificationBuilder
+- int notificationId
++ String pathToFile
++ {static} String DOWNLOAD_COMPLETE_ACTION
+- Handler progressUpdateHandler
+- Runnable progressUpdateRunnable
+- int currentProgress
+# void onPreExecute()
+# String doInBackground(String)
+# void onPostExecute(String)
+- void createNotificationChannel()
+- void setupNotification()
+- void updateNotification(int)
+- boolean completeNotification(String)
++ void deleteDownloadedFile()
+}
+class com.example.oscdl.Package {
+- String category
+- String coder
+- String contributors
+- String controllers
+- String display_name
+- int downloads
+- ArrayList<String> extra_directories
+- int extracted
+- String icon_url
+- String internal_name
+- String long_description
+- String package_type
+- String rating
+- int release_date
+- String shop_title_id
+- Object shop_title_version
+- String short_description
+- int updated
+- String version
+- int zip_size
+- String zip_url
++ String getCategory()
++ void setCategory(String)
++ String getCoder()
++ void setCoder(String)
++ String getContributors()
++ void setContributors(String)
++ String getControllers()
++ void setControllers(String)
++ String getDisplay_name()
++ void setDisplay_name(String)
++ int getDownloads()
++ void setDownloads(int)
++ ArrayList<String> getExtra_directories()
++ void setExtra_directories(ArrayList<String>)
++ int getExtracted()
++ void setExtracted(int)
++ String getIcon_url()
++ void setIcon_url(String)
++ String getInternal_name()
++ void setInternal_name(String)
++ String getLong_description()
++ void setLong_description(String)
++ String getPackage_type()
++ void setPackage_type(String)
++ String getRating()
++ void setRating(String)
++ int getRelease_date()
++ void setRelease_date(int)
++ String getShop_title_id()
++ void setShop_title_id(String)
++ Object getShop_title_version()
++ void setShop_title_version(Object)
++ String getShort_description()
++ void setShort_description(String)
++ int getUpdated()
++ void setUpdated(int)
++ String getVersion()
++ void setVersion(String)
++ int getZip_size()
++ void setZip_size(int)
++ String getZip_url()
++ void setZip_url(String)
+}
+class com.example.oscdl.DatabaseHelper {
+- {static} int DATABASE_VERSION
+- {static} String DATABASE_NAME
+- {static} String TABLE_NAME
+- {static} String COLUMN_ZIP_PATH
+- {static} String COLUMN_NAME
+- {static} String COLUMN_ICON
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
++ boolean addTheme(ThemeItem)
++ void deleteTheme(String)
++ ArrayList<String> getZipFilePaths()
++ ArrayList<String> getNames()
++ ArrayList<Bitmap> getIcons()
+}
+
+
+androidx.fragment.app.Fragment <|-- com.example.oscdl.createfragment
+androidx.fragment.app.Fragment <|-- com.example.oscdl.oscfragment
+androidx.fragment.app.Fragment <|-- com.example.oscdl.hbbfragment
+android.widget.BaseAdapter <|-- com.example.oscdl.CustomBaseAdapter
+com.example.oscdl.Adapter <|-- com.example.oscdl.CarouselAdapter
+com.example.oscdl.CarouselAdapter +.. com.example.oscdl.CarouselAdapter$CarouselHolderView
+com.example.oscdl.ViewHolder <|-- com.example.oscdl.CarouselAdapter$CarouselHolderView
+androidx.appcompat.app.AppCompatActivity <|-- com.example.oscdl.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.oscdl.SplashScreen
+android.widget.BaseAdapter <|-- com.example.oscdl.ThemeAdapter
+com.example.oscdl.ThemeAdapter +.. com.example.oscdl.ThemeAdapter$ViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.oscdl.infoPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.oscdl.themeCreator
+android.os.AsyncTask <|-- com.example.oscdl.DownloadFileFromURL
+android.database.sqlite.SQLiteOpenHelper <|-- com.example.oscdl.DatabaseHelper
+@enduml

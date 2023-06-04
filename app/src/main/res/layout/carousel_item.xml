@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/devname"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:text="dev_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/version"
+        android:layout_below="@id/devname"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:text="ver"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/size"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/version"
+        android:text="size"
+        android:textStyle="bold"/>
+
+    <com.jackandphantom.carouselrecyclerview.view.ReflectionImageView
+        android:id="@+id/img_carousel"
+        android:layout_below="@id/size"
+        android:layout_width="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="100dp" />
+
+
+</RelativeLayout>
